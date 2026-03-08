@@ -1,0 +1,6 @@
+# Game files (too large for git, copy manually)
+games/
+*.zip
+*.exe
+*.dat
+*.win
