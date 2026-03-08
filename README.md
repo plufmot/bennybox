@@ -47,6 +47,36 @@ unzip blue_boy.zip -d /home/benny/games/blue_boy/
 
 Reboot — the console starts automatically.
 
+## SSH access (for fixing things at events)
+
+### Same WiFi network (home)
+```bash
+ssh benny@192.168.4.83
+# or
+ssh benny@bennybox.local
+```
+Password: `bennysworldrocksletsgo!`
+
+### Direct ethernet (no WiFi — at events)
+1. Plug an ethernet cable between your laptop and the Pi
+2. Wait ~10 seconds for the link to come up
+3. SSH using the hostname — no IP needed:
+```bash
+ssh benny@bennybox.local
+```
+This works because the Pi runs `avahi-daemon` (mDNS). Works on Mac, Linux, and Windows with Network Discovery enabled.
+
+> **Tip:** If `bennybox.local` doesn't resolve, try `ping bennybox.local` first to force mDNS discovery, then SSH.
+
+### Once in
+The console will have started (or tried to start) X + the game. To get back to a shell you can work in:
+```bash
+# Stop X / the game
+pkill xinit
+
+# Or if something is broken and X never started, you're already at a shell
+```
+
 ## Adding games
 
 1. Add an entry to `console/pick_game.py` in the `GAMES` list
