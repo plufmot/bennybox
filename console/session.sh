@@ -1,19 +1,17 @@
 #!/bin/bash
 # Benny's Console - X Session
-# Called by startx with the game selection as $1 (format: "runner|/path/to/game.exe")
+# Reads game selection written by boot.sh, launches via Wine + box64/box86
 
-RUNNER_PATH="$1"
+RUNNER_PATH=$(cat /home/benny/console/selected_game)
 RUNNER="${RUNNER_PATH%%|*}"
 GAME="${RUNNER_PATH##*|}"
 GAME_DIR="$(dirname "$GAME")"
 
-# Disable screen blanking and DPMS
 xset s off -dpms &
-
-# Start openbox window manager
 openbox &
 sleep 1
 
-# Launch the game from its own directory (GMS2 needs this for data.win)
+# Run from game's own directory (GMS2 needs this for data.win)
 cd "$GAME_DIR"
-exec $RUNNER "$GAME"
+# eval handles multi-word runners like "box64 wine64"
+eval $RUNNER '"$GAME"'
