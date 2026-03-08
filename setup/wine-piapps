@@ -1,0 +1,9 @@
+#!/bin/bash
+export WINEPREFIX="${WINEPREFIX:-$HOME/.wine}"
+export WINEARCH="${WINEARCH:-win64}"
+export PATH="/opt/wine/wine-9.17/bin:$PATH"
+export LD_LIBRARY_PATH="/opt/wine/wine-9.17/lib:/opt/wine/wine-9.17/lib/wine:$LD_LIBRARY_PATH"
+export WINEDLLOVERRIDES="mscoree,mshtml="
+# Software rendering - bypasses GPU entirely (works on Pi 4; GPU path pending Zink/DXVK fix)
+export LIBGL_ALWAYS_SOFTWARE=1
+exec /opt/wine/wine-9.17/bin/wine explorer /desktop=bennybox,1920x1080 "$@"

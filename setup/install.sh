@@ -31,7 +31,12 @@ sudo DEBIAN_FRONTEND=noninteractive apt install -y \
     xinit \
     openbox \
     unzip \
-    whiptail
+    whiptail \
+    xdotool \
+    scrot \
+    mesa-vulkan-drivers \
+    vulkan-tools \
+    libvulkan1
 
 # 4. Set DNS to 1.1.1.1 (avoid Pi-hole IPv6-only issues)
 CONN=$(nmcli -t -f NAME,DEVICE con show --active | grep -v lo | head -1 | cut -d: -f1)
@@ -44,6 +49,14 @@ fi
 mkdir -p /home/benny/console /home/benny/games
 cp console/boot.sh console/session.sh console/pick_game.py /home/benny/console/
 chmod +x /home/benny/console/*.sh /home/benny/console/*.py
+
+# 5a. Install Wine-9.17 (Pi-Apps tarball, x86_64 via box64)
+# Download from: https://github.com/Botspot/pi-apps-coders/releases
+# Extract to /opt/wine/wine-9.17 and install the wine-piapps wrapper
+sudo mkdir -p /opt/wine
+# After extracting wine tarball to /opt/wine/wine-9.17, install wrapper:
+sudo cp setup/wine-piapps /usr/local/bin/wine-piapps
+sudo chmod +x /usr/local/bin/wine-piapps
 
 # 6. Set up auto-login on tty1
 sudo mkdir -p /etc/systemd/system/getty@tty1.service.d

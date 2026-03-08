@@ -8,10 +8,12 @@ GAME="${RUNNER_PATH##*|}"
 GAME_DIR="$(dirname "$GAME")"
 
 xset s off -dpms &
-openbox &
+openbox --config-file /home/benny/.config/openbox/rc.xml &
 sleep 1
 
-# Run from game's own directory (GMS2 needs this for data.win)
+# Force 1080p (prevents tiny window on 4K TVs)
+xrandr --output HDMI-1 --mode 1920x1080 2>/dev/null || xrandr --output HDMI-1 --auto
+
+sleep 0.5
 cd "$GAME_DIR"
-# eval handles multi-word runners like "box64 wine64"
-eval $RUNNER '"$GAME"'
+$RUNNER "$GAME"
